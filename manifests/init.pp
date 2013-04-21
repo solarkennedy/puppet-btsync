@@ -21,13 +21,43 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Kyle Anderson <kyle@xkyle.com>
 #
-# === Copyright
-#
-# Copyright 2011 Your name here, unless otherwise noted.
-#
+
 class btsync {
   include btsync::params
+  include btsync::shared_folder
+
+  service { 'btsync':
+    ensure    => running,
+    enable    => true,
+    require   => File['/etc/init/btsync.conf'],
+    subscribe => File['/etc/btsync.conf'],
+  }
+
+  # TODO: Add more disto support
+  file { '/etc/init/btsync.conf':
+    content => template('btsync/btsync.conf.init.erb'),
+    owner   => root,
+    group   => root,
+    mode    => 444,
+    notify  => Service['btsync'], # We might change the user in the template,
+                                  # which should initiate a respawn of the service
+  }
+
+  # Make sure we have a user to run btsync with
+  # Doesn't need anything special, just that it exists
+  if ! defined(User["$btsync::params::user"]) {
+    user { "$btsync::params::user": ensure => 'present', }
+  }
+
+  # Main btsync.conf file, contains all the shared folder stuff
+  file { '/etc/btsync.conf':
+    content => template('btsync/btsync.conf.erb'),
+    owner   => root,
+    group   => root,
+    mode    => 444,
+    notify  => Service['btsync'],
+  }
 
 }

@@ -1,0 +1,11 @@
+# btsync
+# Made by puppet
+#
+description	"btsync"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+exec su -c <%= @btsync::params:user %> btsync --nodaemon --config /etc/btsync.conf
