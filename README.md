@@ -17,6 +17,7 @@ Examples
     btsync::shared_folder { '/media/sync': secret => 'HIKVMVKXNORH33X......' }
 
 A more complicated example:
+
     btsync::shared_folder { '/media/sync': 
       secret           => 'HIKVMVKXNORH33X......' }
       use_relay_server => true,
