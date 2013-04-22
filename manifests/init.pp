@@ -95,7 +95,7 @@ class btsync {
  
   # The footer is at the end of the shared folders array json
   concat::fragment { 'btsync_footer':
-    content => "  ]\n}\n",
+    content => template('btsync/btsync_footer.conf.erb'),
     target  => '/etc/btsync.conf',
     order   => 99,
    } 
