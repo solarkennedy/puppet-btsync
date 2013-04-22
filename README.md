@@ -6,27 +6,53 @@ fees) Kinda like an eventually consistent filesystem.
 
 Installation
 ------------
+
     puppet module install KyleAnderson/btsync
+
 Then put your btsync binary in the `btsync/files/` directory based on the arch:
 
-    modules/btsync/files/btsync.x86_64
-    modules/btsync/files/btsync.arm
+    modules/btsync/files/btsync.i386
+    modules/btsync/files/btsync.amd64
+    modules/btsync/files/btsync.arm? (not tested yet)
 
 Examples
 -------
+Simple shared folder with defaults:
+
+    class { 'btsync': }
     btsync::shared_folder { '/media/sync': secret => 'HIKVMVKXNORH33X......' }
 
-A more complicated example:
+A more complicated example, explicit settings, dropbox-like, random port:
 
+    class { 'btsync': listening_port => 0, upload_limit => 50, download_limit => 500 }
     btsync::shared_folder { '/media/sync': 
       secret           => 'HIKVMVKXNORH33X......' }
       use_relay_server => true,
-      use_tracker      => false,
+      use_tracker      => true,
       use_dht          => true,
       search_lan       => true,
       use_sync_trash   => true,
-      known_hosts      => [ "192.168.1.2:44444", "myhost.com:6881" ],
     }
+
+Pro. Internal only with explicity node declaration running as www-data:
+
+    class { 'btsync': user => 'www-data', use_upnp => false }
+    btsync::shared_folder { '/var/www/': 
+      secret           => 'HIKVMVKXNORH33X......' }
+      use_relay_server => false,
+      use_tracker      => false,
+      use_dht          => false,
+      search_lan       => true,
+      use_sync_trash   => false,
+      known_hosts      => [ "web1:6881", "web2:6881", "web3:6881" ],
+    } 
+
+
+Bugs
+-------
+*   In order to make valid json with puppet-concat, I have to add an empty trailing {} without a comma. btsync complains but works anyway
+*   Only supporting upstart scripts for now
+*   Would be nice to support multiple instances of btsync running for performance or security reasons. Maybe someday.
 
 License
 -------
@@ -38,5 +64,4 @@ Kyle Anderson <kyle@xkyle.com>
 
 Support
 -------
-
 https://github.com/solarkennedy/puppet-btsync
