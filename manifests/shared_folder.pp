@@ -5,7 +5,7 @@ define btsync::shared_folder(
   $use_dht = true, 
   $search_lan = true, 
   $use_sync_trash = false, 
-  $known_hosts,
+  $known_hosts = [],
 ) {
 
   include btsync
@@ -18,6 +18,12 @@ define btsync::shared_folder(
       ensure => directory,
       owner  => $btsync::params::user,
     }
+  }
+
+  concat::fragment { "$name":
+    order   => 15,
+    content => template('btsync/shared_folder.erb'),
+    target  => '/etc/btsync.conf', 
   }
 
 }
