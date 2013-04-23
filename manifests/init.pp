@@ -24,15 +24,23 @@
 # Kyle Anderson <kyle@xkyle.com>
 #
 
-class btsync {
-  include btsync::params
+class btsync(
+  $user              = 'btsync',
+  $device_name       = $::fqdn,
+  $listening_port    = 6881,  # 0 - randomize port
+  $check_for_updates = false,
+  $use_upnp          = true,
+  $download_limit    = '0', # in KB/s. 0 - unlimited
+  $upload_limit      = '0',
+  $known_hosts       = []
+) {
 
   service { 'btsync':
     ensure    => running,
     enable    => true,
     require   => [ File['/etc/init/btsync.conf'],
                    File['/var/btsync'],
-                   User["${btsync::params::user}"],
+                   User["${btsync::user}"],
                 ],
     subscribe => File['/etc/btsync.conf'],
   }
@@ -50,15 +58,15 @@ class btsync {
   # Directory to contain auxilary syncapp files
   file { '/var/btsync/':
     ensure => directory,
-    owner  => $btsync::params::user,
+    owner  => $btsync::user,
     group  => 'root',
     mode   => 0700,
   }
 
   # Make sure we have a user to run btsync with
   # Doesn't need anything special, just that it exists
-  if ! defined(User["$btsync::params::user"]) {
-    user { "$btsync::params::user": ensure => 'present', }
+  if ! defined(User["$btsync::user"]) {
+    user { "$btsync::user": ensure => 'present', }
   }
 
   # In the future there will probably be a better way to do this

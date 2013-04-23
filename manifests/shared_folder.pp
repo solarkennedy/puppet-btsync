@@ -16,7 +16,7 @@ define btsync::shared_folder(
   if ! defined(File["$name"]){
     file { "$name":
       ensure => directory,
-      owner  => $btsync::params::user,
+      owner  => $btsync::user,
     }
   }
 

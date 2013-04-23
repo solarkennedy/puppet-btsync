@@ -8,4 +8,4 @@ stop on runlevel [!2345]
 
 respawn
 
-exec su <%= scope.lookupvar('btsync::params::user') %> -c "btsync --nodaemon --config /etc/btsync.conf"
+exec su <%= scope.lookupvar('btsync::user') %> -c "btsync --nodaemon --config /etc/btsync.conf"
