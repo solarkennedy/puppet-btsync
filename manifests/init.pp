@@ -1,6 +1,6 @@
 # == Class: btsync
 #
-# 
+#
 #
 # === Parameters
 #
@@ -40,7 +40,7 @@ class btsync(
     enable    => true,
     require   => [ File['/etc/init/btsync.conf'],
                    File['/var/btsync'],
-                   User["${btsync::user}"],
+                   User[$user],
                 ],
     subscribe => File['/etc/btsync.conf'],
   }
@@ -50,7 +50,7 @@ class btsync(
     content => template('btsync/btsync.conf.init.erb'),
     owner   => root,
     group   => root,
-    mode    => 444,
+    mode    => '0444',
     notify  => Service['btsync'], # We might change the user in the template,
                                   # which should initiate a respawn of the service
   }
@@ -58,31 +58,31 @@ class btsync(
   # Directory to contain auxilary syncapp files
   file { '/var/btsync/':
     ensure => directory,
-    owner  => $btsync::user,
+    owner  => $user,
     group  => 'root',
-    mode   => 0700,
+    mode   => '0700',
   }
 
   # Make sure we have a user to run btsync with
   # Doesn't need anything special, just that it exists
-  if ! defined(User["$btsync::user"]) {
-    user { "$btsync::user": ensure => 'present', }
+  if ! defined(User[$user]) {
+    user { $user: ensure => 'present', }
   }
 
   # In the future there will probably be a better way to do this
   file { '/usr/bin/btsync':
     source => "puppet:///modules/btsync/btsync.${::architecture}",
-    mode   => 0555,
+    mode   => '0555',
     notify => Service['btsync'], # If this file changes for an update,
                                  # restart the service
   }
- 
+
   # For convenience and lsb
   file { '/var/log/btsync.log':
     ensure => link,
     target => '/var/btsync/sync.log',
   }
-  
+
   # Main btsync.conf file, contains all the shared folder stuff
   # it is a concatination of the main config, shared folders, then the footer
   concat { '/etc/btsync.conf':
@@ -91,7 +91,7 @@ class btsync(
     mode    => 444,
     notify  => Service['btsync'],
   }
-  
+
   # start of the json and main system config
   concat::fragment { 'btsync_header':
     content => template('btsync/btsync_header.conf.erb'),
@@ -100,12 +100,12 @@ class btsync(
   }
 
   # the shared_folders have the middle pieces
- 
+
   # The footer is at the end of the shared folders array json
   concat::fragment { 'btsync_footer':
     content => template('btsync/btsync_footer.conf.erb'),
     target  => '/etc/btsync.conf',
     order   => 99,
-   } 
+   }
 
 }
