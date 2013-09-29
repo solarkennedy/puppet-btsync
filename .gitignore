@@ -1,5 +1,2 @@
 pkg/
-files/btsync.i386
-files/btsync.powerpc
-files/btsync.arm
-files/btsync.amd64
+files/btsync.*

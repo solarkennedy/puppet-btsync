@@ -11,9 +11,8 @@ Installation
 
 Then put your btsync binary in the `btsync/files/` directory based on the arch:
 
-    modules/btsync/files/btsync.i386
-    modules/btsync/files/btsync.amd64
-    modules/btsync/files/btsync.arm? (not tested yet)
+    cd modules/btsync/files
+    ./download-btsyncs.sh
 
 Examples
 -------
