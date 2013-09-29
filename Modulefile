@@ -1,7 +1,7 @@
 name    'kyleanderson-btsync'
 version '0.0.1'
 author 'Kyle Anderson <kyle@xkyle.com'
-dependency   'ripienaar/concat', '0.0.1'
+dependency   'puppetlabs/concat', '1.0.0'
 license 'Apache License, Version 2.0'
 summary 'Creates folders synchronized by btsync'
 description 'Creates folders synchronized by btsync. http://labs.bittorrent.com/experiments/sync.html'
