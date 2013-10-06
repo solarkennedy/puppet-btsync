@@ -1,5 +1,7 @@
 About
 ------
+[![Build Status](https://travis-ci.org/solarkennedy/puppet-btsync.png)](https://travis-ci.org/solarkennedy/puppet-btsync)
+
 This is module makes it easy to manage shared folders using the BitTorrent
 SyncApp (btsync). Think Dropbox with a bitorrent backend and no server. (and no storage
 fees) Kinda like an eventually consistent filesystem. 

@@ -1,8 +1,14 @@
 require 'spec_helper'
 
 describe 'btsync', :type => :class do
+  let :facts do
+    {
+      :osfamily               => 'Debian',
+      :concat_basedir         => '/dne',
+    }
+  end
   it { should contain_service("btsync").with(
-    'ensure'    => 'true',
+    'ensure'    => 'running',
     'enable'    => 'true',
     )
   }

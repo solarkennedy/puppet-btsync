@@ -1,2 +1,6 @@
 pkg/
 files/btsync.*
+metadata.json
+Gemfile.lock
+.rspec_system/
+.*.sw*

@@ -71,6 +71,7 @@ class btsync(
 
   # In the future there will probably be a better way to do this
   file { '/usr/bin/btsync':
+    ensure => 'present',
     source => "puppet:///modules/btsync/btsync.${::architecture}",
     mode   => '0555',
     notify => Service['btsync'], # If this file changes for an update,
