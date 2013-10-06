@@ -5,13 +5,6 @@ rvm:
 
 script: "bundle exec rake spec"
 
-notifications:
-  email:
-    - kyle@xkyle.com
-env:
-  - PUPPET_VERSION=2.6.14
-  - PUPPET_VERSION=2.7.11
-
 env:
   matrix:
     - PUPPET_GEM_VERSION="~> 2.7.0"
