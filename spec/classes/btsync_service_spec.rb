@@ -10,7 +10,7 @@ describe 'btsync::install', :type => :class do
     end
     it { should contain_service("btsync").with(
       'ensure'  => 'running',
-      'enable'  => 'true',
+      'enable'  => 'true'
       )
     }
   end

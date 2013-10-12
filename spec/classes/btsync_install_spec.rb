@@ -9,7 +9,7 @@ describe 'btsync::install', :type => :class do
       }
     end
     it { should contain_file("/usr/bin/btsync").with(
-      'ensure'  => 'present',
+      'ensure'  => 'present'
       )
     }
   end
