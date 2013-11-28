@@ -1,5 +1,5 @@
-name    'kyleanderson-btsync'
-version '0.0.1'
+name    'KyleAnderson-btsync'
+version '0.0.3'
 author 'Kyle Anderson <kyle@xkyle.com'
 dependency   'puppetlabs/concat', '1.0.0'
 license 'Apache License, Version 2.0'
