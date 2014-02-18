@@ -17,7 +17,7 @@ class btsync::install inherits btsync {
   # In the future there will probably be a better way to do this
   file { '/usr/bin/btsync':
     ensure => 'present',
-    source => "puppet:///modules/btsync/btsync.${::architecture}",
+    source => "puppet:///modules/btsync/btsync.${::hardwareisa}",
     mode   => '0555',
   }
 
